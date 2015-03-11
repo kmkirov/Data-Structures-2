@@ -27,9 +27,11 @@ private:
 		~Node()
 		{
 			cout << "destruction of node" << endl;
-			delete leftChildTree;
-			delete rightChildTree;
-			delete parrentNode;
+			if (leftChildTree !=nullptr)
+				delete leftChildTree;
+			if (rightChildTree != nullptr)
+				delete rightChildTree;
+			//delete parrentNode; // inache loop
 		}
 	};
 
@@ -45,7 +47,7 @@ private:
 	void recursivePrint(Node<T>* node);
 public:
 	BSTree();
-	virtual ~BSTree();//ready
+	~BSTree();//ready
 	void printBSTree();
 	//void printBSTreeGraphics();
 	void insertNode(T data);//ready
@@ -100,21 +102,22 @@ BSTree<T>::BSTree()
 template<class T>//ready
 void BSTree<T>::clear(Node<T>* a)
 {
+	//if (a == nullptr)
+	//	return;
+	if (a->leftChildTree != nullptr)
+		clear(a->leftChildTree);
+	if (a->rightChildTree !=nullptr)
+		 clear(a->rightChildTree);
 	if (a != nullptr)
-	{
-		if (a->leftChildTree != nullptr)
-			clear(a->leftChildTree);
-		if (a->rightChildTree != nullptr)
-			clear(a->rightChildTree);
 		delete a;
-	}
+	
 }
 
 
 template<class T>//ready
 BSTree<T>::~BSTree()
 {
-	clear(root);
+	delete root;
 }
 
 
@@ -134,20 +137,25 @@ void BSTree<T>::insertNode(T data)
 
 
 template <class T>//ready
-void BSTree<T>::recursiveAddNode(T data,typename BSTree<T>:: Node<T>* node, typename BSTree<T>::Node<T>* parrentNode)
-{
+void BSTree<T>::recursiveAddNode(T data, typename BSTree<T>::Node<T>* node, typename BSTree<T>::Node<T>* parrentNode)
+ {
 	if (parrentNode == nullptr)
 		return;
 	if (node == nullptr)
 	{
 		node = new Node<T>(data, parrentNode);
-		return;
+		if (parrentNode->data > data)
+			parrentNode->rightChildTree = node;
+		else
+			parrentNode->leftChildTree = node;
 	}
-
-	if (parrentNode->data > data)
-		recursiveAddNode(data, parrentNode->rightChildTree, parrentNode);
 	else
-		recursiveAddNode(data, parrentNode->leftChildTree, parrentNode);
+	{
+		if (node->data > data)
+			recursiveAddNode(data, node->rightChildTree, node);
+		else
+			recursiveAddNode(data, node->leftChildTree, node);
+	}
 }
 
 
