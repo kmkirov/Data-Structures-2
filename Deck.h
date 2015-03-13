@@ -18,11 +18,6 @@ public:
 
 	~Node()
 	{
-		//cout << "node Destructor and data = " << data << endl;
-		//if (nextNodePtr)
-		//	delete nextNodePtr;
-		//if (prevNodePtr)
-		//	delete prevNodePtr;
 	}
 };
 
@@ -45,11 +40,41 @@ public:
 	void addNodeToBack(T data); //ready
 	void addNodeToFront(T data); //ready
 	bool hasNode(T data); //ready
-	bool insertNodeIntoPos(int index, T data);//ready
-	void deleteNodePosition(int pos);//ready
+	bool insertNodeIntoPos(unsigned int index, T data);//ready
+	void deleteNodePosition(unsigned int pos);//ready
+	void popBack();
+	void popFront();
 	void printAll();
+	unsigned int getSize();
+	T getFront()
+	{
+		return startNode->data;
+	}
+	T getBack()
+	{
+		return endNode->data;
+	}
 };
 
+template <class T>
+void Deck<T>::popBack()
+{
+	deleteNodePosition(_size - 1);
+}
+
+
+template<class T>
+unsigned int Deck<T>::getSize()
+{
+	return _size;
+}
+
+
+template<class T>
+void Deck<T>::popFront()
+{
+	deleteNodePosition(0);
+}
 
 template <class T>
 void Deck<T>::printAll()
@@ -113,7 +138,7 @@ void Deck<T>::addDataToNode(T data)
 
 
 template <class T>
-bool Deck<T>::insertNodeIntoPos(int index, T data)
+bool Deck<T>::insertNodeIntoPos(unsigned int index, T data)
 {
 	if (index < 0)
 		return false;
@@ -174,7 +199,7 @@ void Deck<T>::addNodeToFront(T data)
 }
 
 template <class T>
-void Deck<T>::deleteNodePosition(int pos)
+void Deck<T>::deleteNodePosition(unsigned int pos)
 {
 	if (pos > _size || pos < 0)
 		return;
@@ -184,6 +209,7 @@ void Deck<T>::deleteNodePosition(int pos)
 		startNode = startNode->nextNodePtr;
 		startNode->prevNodePtr = nullptr;
 		delete tmp;
+		--_size;
 		return;
 	}
 	if (pos == _size - 1)
@@ -192,6 +218,7 @@ void Deck<T>::deleteNodePosition(int pos)
 		endNode = endNode->prevNodePtr;
 		delete tmp;
 		endNode->nextNodePtr = nullptr;
+		--_size;
 		return;
 	}
 	Node<T> * tmp = startNode;
@@ -201,4 +228,5 @@ void Deck<T>::deleteNodePosition(int pos)
 	tmp->nextNodePtr->nextNodePtr->prevNodePtr = tmp;
 	tmp->nextNodePtr = tmp->nextNodePtr->nextNodePtr;
 	delete del;
+	--_size;
 }

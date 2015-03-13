@@ -291,9 +291,30 @@ void testDeck(Deck<int> & a)
 	a.deleteNodePosition(4);
 	a.printAll();
 }
-int main()
+int main46()
 {
 	Deck<int> dek;
 	testDeck(dek);
+	return 0;
+}
+#include "BSTreeInt.h"
+void BSTreeIntTest()
+{
+	BSTreeInt a;
+	a.addNode(1);
+	a.addNode(2);
+	a.addNode(-10);
+	a.addNode(-5);
+	a.addNode(-2);
+	a.addNode(10);
+	a.addNode(20);
+	a.printAllNodes();
+	a.bst1();
+	printLevels(a.q);
+
+}
+int main()
+{
+	BSTreeIntTest();
 	return 0;
 }
