@@ -264,9 +264,9 @@ void BSTree<T>::printBSTree()
 	recursivePrint(this->root);		
 }
 
-void verno()
+void vernoMojelo()
 {
-	class b{ int a; };
+	class b{ int a; };//ot uchebnika na magda :D
 }
 int main1()
 {
@@ -309,9 +309,20 @@ void BSTreeIntTest()
 	a.addNode(10);
 	a.addNode(20);
 	a.printAllNodes();
+<<<<<<< HEAD
 	a.bst1();
 	printLevels(a.q);
 
+=======
+	a.q.clear();//clean old elements
+	a.bst1();
+	printLevels(a.q);
+
+	//cout<<a.findNode(-10)->data;
+	a.rotateLeft(a.findNode(2));
+	a.bst1();
+	printLevels(a.q);
+>>>>>>> stack + queue + bst added.
 }
 int main()
 {

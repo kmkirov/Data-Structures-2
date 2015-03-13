@@ -53,6 +53,12 @@ private:
 	void addNodeRecursive(int data, BSTNode * currNode, BSTNode * par);//ok
 	void printRecursive(BSTNode * node);//ok
 	void recursiveDeleteNode(BSTNode * current, int data);
+<<<<<<< HEAD
+=======
+	void arrangeRotationParrent(BSTNode * pivot, BSTNode * parrent, bool left);
+	void decreaseLevelDown(BSTNode * node);
+	void increaseLevelDown(BSTNode * node);
+>>>>>>> stack + queue + bst added.
 public:
 	vector<BSTNode*> q;
 	void deleteNode(int data);
@@ -65,11 +71,105 @@ public:
 	bool rotateRight(int data);
 	void printAllNodes();//ok
 	void bst1();
+<<<<<<< HEAD
 	//TODO
 	void rotateLeft();
 	void rotateRight();
 };
 
+=======
+	BSTNode * findNode(int data);
+	void rotateLeft(BSTNode * pivot);
+	void rotateRight(BSTNode * pivot);
+};
+
+
+BSTNode * BSTreeInt::findNode(int data)
+{
+	return findNode(data, root);
+}
+
+
+void BSTreeInt::rotateLeft(BSTNode * pivot)
+{
+	if (pivot->parrent->right != pivot)
+		return;
+	BSTNode * parrent = pivot->parrent;
+	BSTNode * pivotLeftChild = pivot->left;
+	pivot->left = parrent;
+	parrent->right = pivotLeftChild;
+	arrangeRotationParrent(pivot,parrent);	
+}
+
+
+void BSTreeInt::rotateRight(BSTNode * pivot)
+{
+	if (pivot->parrent->left != pivot)
+		return;
+	BSTNode * parrent = pivot->parrent;
+	BSTNode * pivotRightChild = pivot->right;
+	pivot->right = parrent;//1
+	parrent->left = pivotRightChild;//2
+	BSTNode * parrentFather = parrent->parrent;
+	arrangeRotationParrent(pivot, parrent);
+}
+
+
+void BSTreeInt::arrangeRotationParrent(BSTNode * pivot, BSTNode * parrent, bool left)
+{
+	BSTNode * parrentFather = parrent->parrent;
+
+	if (parrent->parrent == nullptr)
+	{
+		root = pivot;
+		parrent->parrent = pivot; //root case
+		pivot->parrent = nullptr;
+	}
+	else
+	{
+		if (parrentFather->left == parrent)
+			parrentFather->left = pivot;
+		else
+			parrentFather->right = pivot;
+
+		parrent->parrent = pivot;
+		pivot->parrent = parrentFather;
+	}
+	pivot->level--;
+	if (left == true)// edno ot poddyrvetata trqbva da si ostava na sushtata dulbochina
+	{
+		increaseLevelDown(pivot->left->left);
+		decreaseLevelDown(pivot->right);
+	}
+	else
+	{
+		increaseLevelDown(pivot->left);// trqbva da se testva
+		decreaseLevelDown(pivot->right->right);
+	}
+}
+
+
+void BSTreeInt::increaseLevelDown(BSTNode * node)
+{
+	if (node == nullptr)
+		return;
+	node->level++;
+	increaseLevelDown(node->left);
+	increaseLevelDown(node->right);
+
+}
+
+void BSTreeInt::decreaseLevelDown(BSTNode * node)
+{
+	if (node == nullptr)
+		return;
+	node->level--;
+	decreaseLevelDown(node->left);
+	decreaseLevelDown(node->right);
+
+}
+
+>>>>>>> stack + queue + bst added.
 BSTNode * findMin(BSTNode * node)//find min element :)
 {
 	while (node->left)
@@ -193,11 +293,18 @@ BSTNode * BSTreeInt::findNode(int data, BSTNode * startNode)
 	else
 	{
 		if (startNode->data > data)
+<<<<<<< HEAD
 			findNode(data, startNode->left);
 		else
 			findNode(data, startNode->right);
 	}
 	return nullptr;
+=======
+			return findNode(data, startNode->left);
+		else
+			return findNode(data, startNode->right);
+	}
+>>>>>>> stack + queue + bst added.
 }
 
 
