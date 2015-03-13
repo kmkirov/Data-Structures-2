@@ -53,12 +53,11 @@ private:
 	void addNodeRecursive(int data, BSTNode * currNode, BSTNode * par);//ok
 	void printRecursive(BSTNode * node);//ok
 	void recursiveDeleteNode(BSTNode * current, int data);
-<<<<<<< HEAD
-=======
+
 	void arrangeRotationParrent(BSTNode * pivot, BSTNode * parrent, bool left);
 	void decreaseLevelDown(BSTNode * node);
 	void increaseLevelDown(BSTNode * node);
->>>>>>> stack + queue + bst added.
+
 public:
 	vector<BSTNode*> q;
 	void deleteNode(int data);
@@ -71,13 +70,6 @@ public:
 	bool rotateRight(int data);
 	void printAllNodes();//ok
 	void bst1();
-<<<<<<< HEAD
-	//TODO
-	void rotateLeft();
-	void rotateRight();
-};
-
-=======
 	BSTNode * findNode(int data);
 	void rotateLeft(BSTNode * pivot);
 	void rotateRight(BSTNode * pivot);
@@ -98,7 +90,7 @@ void BSTreeInt::rotateLeft(BSTNode * pivot)
 	BSTNode * pivotLeftChild = pivot->left;
 	pivot->left = parrent;
 	parrent->right = pivotLeftChild;
-	arrangeRotationParrent(pivot,parrent);	
+	arrangeRotationParrent(pivot,parrent,1);	
 }
 
 
@@ -111,7 +103,7 @@ void BSTreeInt::rotateRight(BSTNode * pivot)
 	pivot->right = parrent;//1
 	parrent->left = pivotRightChild;//2
 	BSTNode * parrentFather = parrent->parrent;
-	arrangeRotationParrent(pivot, parrent);
+	arrangeRotationParrent(pivot, parrent,0);
 }
 
 
@@ -136,6 +128,7 @@ void BSTreeInt::arrangeRotationParrent(BSTNode * pivot, BSTNode * parrent, bool 
 		pivot->parrent = parrentFather;
 	}
 	pivot->level--;
+	parrent->level++;
 	if (left == true)// edno ot poddyrvetata trqbva da si ostava na sushtata dulbochina
 	{
 		increaseLevelDown(pivot->left->left);
@@ -169,7 +162,7 @@ void BSTreeInt::decreaseLevelDown(BSTNode * node)
 
 }
 
->>>>>>> stack + queue + bst added.
+
 BSTNode * findMin(BSTNode * node)//find min element :)
 {
 	while (node->left)
@@ -293,18 +286,11 @@ BSTNode * BSTreeInt::findNode(int data, BSTNode * startNode)
 	else
 	{
 		if (startNode->data > data)
-<<<<<<< HEAD
-			findNode(data, startNode->left);
-		else
-			findNode(data, startNode->right);
-	}
-	return nullptr;
-=======
 			return findNode(data, startNode->left);
 		else
 			return findNode(data, startNode->right);
 	}
->>>>>>> stack + queue + bst added.
+
 }
 
 
