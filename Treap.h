@@ -1,12 +1,19 @@
+#include<random>
+#include<iostream>
 class TreapNode
 {
 public:
 	TreapNode(int k)
 	{
+		std::cout << "TreapNode created with data: " << key << std::endl;
 		key = k;
 		priority = (float)rand();// RAND_MAX;
 		left = 0;
 		right = 0;
+	}
+	~TreapNode()
+	{
+		std::cout << "TreapNode deleted with data: " << key << std::endl;
 	}
 	int key;	// key provided by user
 	float priority;	// node's generated priority
@@ -44,6 +51,13 @@ public:
 	bool containsKey(int key) const;
 
 private:
+	TreapNode * root;
+	void removeHelper(TreapNode *& node, int key);
+	void insertIntoSubtree(TreapNode *& node, int & key);
+	void rotateWithLeftChild(TreapNode *& parrent);
+	void rotateWithRigthChild(TreapNode *& parrent);
+	void clear(TreapNode * root);
+
 	Treap& operator=(const Treap&); // Do not implement me!
 	Treap(const Treap&); // Do not implement me!
 };
