@@ -15,6 +15,7 @@ Treap::~Treap()
 
 void Treap::clear(TreapNode * root)
 {
+	
 	if (root)
 	{
 		clear(root->left);
@@ -26,30 +27,36 @@ void Treap::clear(TreapNode * root)
 
 void Treap::rotateWithLeftChild(TreapNode *& parrent)
 {
-	std::swap(parrent->key, parrent->left->key);
-	std::swap(parrent->priority, parrent->left->priority);
-	
+
+	if (!parrent->left)
+		return;
 	TreapNode * tmp = parrent;
-	parrent = parrent->left;
-	
+	TreapNode * new_root_oldChild = nullptr;
+	if (parrent->left)
+		 new_root_oldChild = parrent->left->right;
+
+	parrent = parrent->left; // deteto stava roditel
+
 	parrent->right = tmp; //roditelq stava dqsno dete
-	
-	tmp->left = tmp->left->right; // roditelq vzema dqsnoto ete na lqvoto si dete
+	if (parrent->right)
+		parrent->right->left = new_root_oldChild; // pazim izgubenoto dete :)
 }
 
 
 void Treap::rotateWithRigthChild(TreapNode *& parrent)
-{
-	std::swap(parrent->key, parrent->right->key);
-	std::swap(parrent->priority, parrent->right->priority);
-	
+{	
+	if (!parrent->right)
+		return;
 	TreapNode * tmp = parrent; 
-	parrent = parrent->right;
+	
+	TreapNode * left_child_child = nullptr;
+	if (parrent->right)
+		left_child_child = parrent->right->left;
+	parrent = parrent->right; // deteto stava roditel
 
 	parrent->left = tmp; //roditelq stava dqsno dete
-
-	tmp->right = tmp->right->left;
-
+	if (parrent->left)
+		parrent->left->right = left_child_child; // lqvoto dete na noviq root stava  dqsno dete na stariq root
 }
 
 void Treap::removeHelper(TreapNode *& node, int key)
@@ -66,18 +73,35 @@ void Treap::removeHelper(TreapNode *& node, int key)
 		// node priority !!! need to change
 		/// if (!node->left && !node->right) 
 		// if(onlu one child :))
-
-		if (node->left->priority < node->priority)
+	
+		if (node->left && node->right)
+		{
+			if (node->left->priority < node->right->priority)
+				rotateWithLeftChild(node);
+			else
+				rotateWithRigthChild(node);
+		}
+		else if (node->left)
+		{
 			rotateWithLeftChild(node);
-		else
+		}
+		else if (node->right)
+		{
 			rotateWithRigthChild(node);
-		
+		}
+		else
+		{
+			delete node;
+			node = nullptr;
+			//std::cout << "mmmmaaammmmkaaammmmu" << std::endl;
+		}
+
 		if (node != nullptr)
 			removeHelper(node, key);
 		else
 		{
-			delete node->left;
-			node->left = nullptr;
+			//delete node->left;
+			//node->left = nullptr;
 		}
 	}
 }
@@ -129,7 +153,7 @@ void Treap::insertIntoSubtree(TreapNode *& node, int & key)
 	else 
 	{
 		insertIntoSubtree(node->right, key);
-		if (node->left->priority < node->priority)
+		if (node->right->priority < node->priority)
 			rotateWithRigthChild(node);
 	}
 }

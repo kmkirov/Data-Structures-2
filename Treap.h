@@ -5,7 +5,7 @@ class TreapNode
 public:
 	TreapNode(int k)
 	{
-		std::cout << "TreapNode created with data: " << key << std::endl;
+		std::cout << "TreapNode created with data: " << k << std::endl;
 		key = k;
 		priority = (float)rand();// RAND_MAX;
 		left = 0;
