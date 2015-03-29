@@ -93,7 +93,7 @@ void testDeleteFromTreap()
 }
 
 
-int main()
+int main4()
 {
 	testDeleteFromTreap();
 	return 0;
