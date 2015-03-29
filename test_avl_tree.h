@@ -8,12 +8,11 @@
 #include <set>
 #include <ctime>
 #include <cstdarg>
-#include <sys/time.h>
-#include <stdlib.h>
+
 using namespace std;
 //#define MEASURE_TIME
 
-inline double get_time(){
+inline double get_time(){    
 #ifndef WIN32
  timeval tv;
  gettimeofday(&tv, 0);
@@ -43,8 +42,6 @@ public:
 	void printTimes() const;
 #endif
 private:
-    //Node<T> *root;
-   // int size;
 	int getHeight(Node<T> *node);
 	bool isAVLPropertyHeld();
 	bool isAVLPropertyHeldRec(Node<T> *node);
@@ -82,7 +79,7 @@ void TestAVLTree<T>::printTimes() const
 template <class T>
 bool TestAVLTree<T>::isAVLPropertyHeld()
 {
-	return isAVLPropertyHeldRec(this->root);
+	return isAVLPropertyHeldRec(root);
 }
 
 template <class T>
@@ -111,9 +108,9 @@ template <class T>
 bool TestAVLTree<T>::areAllNodesLinkedCorrectly()
 {
 	visitedNodes = 0;
-	if (!areAllNodesLinkedCorrectlyRec(NULL, this->root)) return false;
+	if (!areAllNodesLinkedCorrectlyRec(NULL, root)) return false;
 
-	if (visitedNodes != this->size)
+	if (visitedNodes != size)
 	{
 		print("\nThe number of linked nodes does not correspond the tree size\n");
 		return false;
@@ -141,7 +138,7 @@ bool TestAVLTree<T>::areAllNodesLinkedCorrectlyRec(Node<T> *parent, Node<T> *nod
 template <class T>
 bool TestAVLTree<T>::areAllHeightsAccurate()
 {
-	return areAllHeightsAccurateRec(this->root);
+	return areAllHeightsAccurateRec(root);
 }
 
 template <class T>
@@ -160,18 +157,18 @@ template <class T>
 bool TestAVLTree<T>::hasTreeCorrectValues(const multiset<T>& values)
 {
 	multiset<T> treeValues;
-	getValuesRec(this->root, treeValues);
+	getValuesRec(root, treeValues);
 	if (values.size() != treeValues.size())
 	{
 		print("\nThe values in the tree are not as expected in number\n");
 		return false;
 	}
-	for (typename multiset<T>::iterator itr1 = values.begin(), itr2 = treeValues.begin(); itr1 != values.end() || itr2 != treeValues.end(); ++itr1, ++itr2)
+	for (multiset<T>::iterator itr1 = values.begin(), itr2 = treeValues.begin(); itr1 != values.end() || itr2 != treeValues.end(); ++itr1, ++itr2)
 	{
 		if (*itr1 != *itr2)
 		{
 			print("\nThe vlaues in the tree are not as expected\n");
-			return false;
+			return false; 
 		}
 	}
 	return true;
@@ -203,7 +200,7 @@ int TestAVLTree<T>::getHeight(Node<T> *node)
 template <class T>
 bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 {
-	if (values.size() != this->size)
+	if (values.size() != size)
 	{
 		print("\nThe size of the tree is not as expected\n");
 		return false;
@@ -211,7 +208,7 @@ bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 	bool treeCorrect = true;
 
 #ifdef MEASURE_TIME
-	double begin, end;
+	double begin, end;	
 	begin = get_time();
 #endif
 
@@ -223,7 +220,8 @@ bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 	begin = end;
 #endif
 
-	if (!treeCorrect) return false;
+	if (!treeCorrect)
+		return false;
 	treeCorrect = areAllNodesLinkedCorrectly();
 
 #ifdef MEASURE_TIME
@@ -232,7 +230,8 @@ bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 	begin = end;
 #endif
 
-	if (!treeCorrect) return false;
+	if (!treeCorrect) 
+		return false;
 	treeCorrect = areAllHeightsAccurate();
 
 #ifdef MEASURE_TIME
@@ -241,7 +240,8 @@ bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 	begin = end;
 #endif
 
-	if (!treeCorrect) return false;
+	if (!treeCorrect)
+		return false;
 	treeCorrect = hasTreeCorrectValues(values);
 
 #ifdef MEASURE_TIME
@@ -249,7 +249,8 @@ bool TestAVLTree<T>::checkTree(const multiset<T>& values)
 	correctValuesTime += end - begin;
 #endif
 
-	if (!treeCorrect) return false;
+	if (!treeCorrect) 
+		return false;
 	return true;
 }
 

@@ -1,13 +1,12 @@
 #include "test_avl_tree.h"
 #include <iostream>
 #include <cstdio>
-#include <string>
+#include <string> 
 #include <set>
 #include <map>
 #include <sstream>
 #include <iomanip>
-#include <random>
-
+#include <algorithm>
 
 using namespace std;
 
@@ -56,14 +55,18 @@ bool executeTest(const string& testName, int numbers[], int size, int deletions[
 				myTree.deleteNode(numbers[deletions[deletionIndex * 2 + 1]]);
 				end = get_time();
 				avlTime += (end - begin);
-			} else {
+			} 
+			else
+			{
 				begin = get_time();
 				// -1 should be non-existing value
 				myTree.deleteNode(-1);
 				end = get_time();
 				avlTime += (end - begin);
 			}
-		} else {
+		}
+		else
+		{//insert value
 			begin = get_time();
 			values.insert(numbers[i]);
 			end = get_time();
@@ -74,7 +77,7 @@ bool executeTest(const string& testName, int numbers[], int size, int deletions[
 			avlTime += (end - begin);
 		}
 		begin = get_time();
-		if (checkTree && !myTree.checkTree(values) )
+		if (checkTree && !myTree.checkTree(values) )//tuk
 		{
 			end = get_time();
 			checkerTime += (end - begin);
@@ -97,7 +100,7 @@ bool executeTest(const string& testName, int numbers[], int size, int deletions[
 		print("\nTest passed");
 	}
 	print("\n\n");
-
+	
 	return true;
 }
 
@@ -205,7 +208,7 @@ int testComplexity()
 
 int main()
 {
-	int result = 0;
+	int result = 0; 
 	result += testInsertSmall();
 	result += testInsertBig();
 	result += testDeleteSmall();
@@ -214,6 +217,34 @@ int main()
 	print("\n\nPreliminary result: %d points from this homework\n", max(result, 0));
 	print("For the user: %s with moodle name: %s and fn: %s\n\n", getName().c_str(), getMoodleName().c_str(), getFacultyNumber().c_str());
 
+	
+	return 0;
+}
+int main1()
+{
+	TestAVLTree<int> myTree;
+	
+	//for (int i = 10; i < 16;++i)
+	//{
+	
+	//{5, 3, 7, 2, 11, 18};
+		myTree.insertNode(134);
+		//134, 41, 876, 124, 23, 47, 13, 55,
+		myTree.insertNode(41);
+		myTree.insertNode(876);
+		myTree.insertNode(124);
+		myTree.insertNode(23);
+		myTree.insertNode(47);
+		myTree.insertNode(13);
+		
+		
+		//myTree.insertNode(47);
+		//myTree.insertNode(1);
 
+		//left rotate arround 23
+		//left rotate
+		
+	//}
+	
 	return 0;
 }
